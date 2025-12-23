@@ -1,0 +1,137 @@
+/* ============================================================
+   1. CORE UTILITIES (CÁC CLASS QUAN TRỌNG NHẤT)
+   ============================================================ */
+
+/* Đây là "công tắc" cho SPA. 
+   Nó dùng !important để đảm bảo ghi đè mọi style khác. */
+.hidden {
+    display: none !important;
+}
+
+/* ============================================================
+   2. DASHBOARD CONTAINER (KHUNG BAO NGOÀI)
+   ============================================================ */
+
+/* Chúng ta tái sử dụng phong cách của login-container 
+   nhưng làm nó rộng hơn để chứa bảng dữ liệu */
+.dashboard-container {
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    
+    /* Kích thước */
+    width: 90%;           /* Chiếm 90% màn hình */
+    max-width: 900px;     /* Nhưng không quá 900px */
+    margin: 20px auto;    /* Căn giữa */
+    
+    /* Font chữ đồng bộ với login */
+    font-family: "Times New Roman", serif; 
+}
+
+/* ============================================================
+   3. HEADER & LOGOUT
+   ============================================================ */
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between; /* Đẩy tiêu đề sang trái, nút logout sang phải */
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 15px;
+}
+
+.dashboard-header h2 {
+    color: #333;
+    margin: 0;
+}
+
+/* Nút đăng xuất - Màu đỏ để cảnh báo */
+.btn-logout {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Times New Roman", serif;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.btn-logout:hover {
+    background-color: #cc0000;
+}
+
+/* ============================================================
+   4. INPUT SECTION (KHU VỰC NHẬP LIỆU)
+   ============================================================ */
+
+.input-section {
+    display: flex;
+    gap: 15px; /* Khoảng cách giữa các ô input */
+    margin-bottom: 30px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.input-section input {
+    flex: 1; /* Để ô input tự co giãn cho đẹp */
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    font-family: "Times New Roman", serif;
+}
+
+/* Nút Thêm mới - Màu xanh lá */
+.btn-add {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: "Times New Roman", serif;
+    transition: background 0.3s;
+}
+
+.btn-add:hover {
+    background-color: #218838;
+}
+
+/* ============================================================
+   5. TABLE STYLES (BẢNG DỮ LIỆU)
+   ============================================================ */
+
+.student-table {
+    width: 100%;
+    border-collapse: collapse; /* Gộp đường viền đôi thành đơn */
+    margin-top: 10px;
+}
+
+.student-table th, 
+.student-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+/* Tiêu đề bảng - Dùng màu xanh của nút Login cho đồng bộ */
+.student-table th {
+    background-color: #0073e6;
+    color: white;
+    font-weight: bold;
+}
+
+/* Hiệu ứng dòng kẻ (Zebra striping) cho dễ nhìn */
+.student-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Hiệu ứng khi di chuột vào dòng */
+.student-table tr:hover {
+    background-color: #e6f7ff;
+}
