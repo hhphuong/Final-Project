@@ -8,7 +8,7 @@ let students = [
     // { id: "B19DCCN002", name: "Trần Thị Bích", class: "D19CQKT02", faculty: "KT", email: "bich.tran@edu.vn", status: "Active" },
     // { id: "B19DCCN003", name: "Lê Hoàng Nam", class: "D19CQCN01", faculty: "CNTT", email: "nam.le@edu.vn", status: "Reserved" },
 ];
-
+let totalStudents = 0;
 let subjects = [
     { code: "IT101", name: "Nhập môn Lập trình", credits: 3 },
     { code: "IT202", name: "Cấu trúc dữ liệu và giải thuật", credits: 4 },
@@ -63,6 +63,7 @@ if (!localStorage.getItem('jwt')) {
 
         // Chuyển view mặc định và cập nhật số liệu
         switchView('view-dashboard');
+        renderTable();
         updateStats();
 
 }
@@ -127,7 +128,7 @@ function updateStats() {
     // Cập nhật tổng số SV trên dashboard và các view khác
     const totalStdElement = document.getElementById('totalStd');
     if(totalStdElement) {
-         totalStdElement.innerText = students.length;
+         totalStdElement.innerText = totalStudents;
     }
     
     // Cập nhật số lượng Môn học
@@ -175,6 +176,7 @@ function updateStats() {
             // Giả sử API trả về cấu hình phân trang nên lấy .content
             // Nếu API trả về list trực tiếp thì dùng: students = response.data;
             students = response.data.content;
+            totalStudents = response.data.totalElements;
 
             const tbody = document.getElementById('tableBody');
             if (!tbody) return;
