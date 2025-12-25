@@ -245,7 +245,7 @@ function updateStats() {
 
         try {
             // 1. Gọi API lấy danh sách sinh viên
-            const response = await axios.get(`${API_BASE_URL}/students/`, {
+            const response = await axios.get(`${API_BASE_URL}/students`, {
                 headers: {
                     'Authorization': `Bearer ${jwt}`
                 }
@@ -253,7 +253,7 @@ function updateStats() {
 
             // Giả sử API trả về cấu hình phân trang nên lấy .content
             // Nếu API trả về list trực tiếp thì dùng: students = response.data;
-            students = response.data.content || response.data;
+            students = response.data.content;
 
             const tbody = document.getElementById('tableBody');
             if (!tbody) return;
