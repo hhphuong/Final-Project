@@ -46,7 +46,10 @@ let editingTeacherIndex = -1; // Cho Giảng viên
 // ============================================================
 
 function initApp() {
-    // A. Khởi tạo Modal Bootstrap instances (RẤT QUAN TRỌNG)
+if (!localStorage.getItem('jwt')) {
+        window.location.href = 'login';
+    }
+
     const studentModalElement = document.getElementById('studentModal');
     if (studentModalElement) studentModalInstance = new bootstrap.Modal(studentModalElement);
     const subjectModalElement = document.getElementById('subjectModal');
@@ -55,106 +58,24 @@ function initApp() {
     if (instructorModalElement) instructorModalInstance = new bootstrap.Modal(instructorModalElement);
     const classDetailModalElement = document.getElementById('classDetailModal');
     if (classDetailModalElement) classDetailModalInstance = new bootstrap.Modal(classDetailModalElement);
+// Ẩn/Hiện màn hình
+        document.getElementById('dashboard-screen').classList.remove('d-none');
 
-    // B. Gán sự kiện Login
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.addEventListener('submit', handleLogin);
-    }
+        // Chuyển view mặc định và cập nhật số liệu
+        switchView('view-dashboard');
+        updateStats();
+
 }
 document.addEventListener("DOMContentLoaded", initApp);
 
 
-// ============================================================
-// 3. LOGIC AUTHENTICATION & SPA SWITCHING
-// ============================================================
-
-// function handleLogin(e) {
-//     e.preventDefault();
-//     const username = document.getElementById('username').value;
-//     const password = document.getElementById('password').value;
-
-
-
-//     if(username === 'admin' && password === '123') {
-//         // Ẩn/Hiện màn hình
-//         document.getElementById('login-screen').classList.add('d-none');
-//         document.getElementById('login-screen').classList.remove('d-flex'); 
-//         document.getElementById('dashboard-screen').classList.remove('d-none');
-        
-//         // Chuyển view mặc định và cập nhật số liệu
-//         switchView('view-dashboard'); 
-//         updateStats();
-//     } else {
-//         alert("Sai tài khoản! (Thử: admin / 123)");
-//         document.getElementById('password').value = ''; 
-//     }
-// }
-
-// js/main.js
-
-// ... (Đảm bảo API_BASE_URL được khai báo ở đầu file hoặc import từ api.js)
-
-async function handleLogin(e) {
-    e.preventDefault();
-    
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    const loginData = {
-        email: username,
-        password: password
-    };
-    
-    // Gửi yêu cầu POST đến API xác thực
-    try {
-        const response = await axios.post(`${API_BASE_URL}/auth/login`, loginData);
-        
-        // --- XỬ LÝ KHI ĐĂNG NHẬP THÀNH CÔNG (HTTP Status 200/201) ---
-        
-        // Thường thì response.data sẽ chứa token hoặc thông tin người dùng
-        const jwt = response.data.token;
-        //Lưu jwt vào local storage 
-        localStorage.setItem('jwt', jwt);
-        
-        // Lưu token hoặc trạng thái đăng nhập vào localStorage (Nếu cần bảo mật hơn)
-        // localStorage.setItem('userToken', userData.token); 
-
-        // Ẩn/Hiện màn hình
-        document.getElementById('login-screen').classList.add('d-none');
-        document.getElementById('login-screen').classList.remove('d-flex'); 
-        document.getElementById('dashboard-screen').classList.remove('d-none');
-        
-        // Chuyển view mặc định và cập nhật số liệu
-        switchView('view-dashboard'); 
-        updateStats();
-
-    } catch (error) {
-        // --- XỬ LÝ KHI ĐĂNG NHẬP THẤT BẠI (Thường là HTTP Status 401/403) ---
-        
-        console.error("Lỗi đăng nhập:", error);
-        
-        let errorMessage = "Đăng nhập thất bại. Vui lòng kiểm tra lại tài khoản và mật khẩu.";
-        
-        // Kiểm tra nếu có response từ server để lấy thông báo lỗi cụ thể
-        if (error.response && error.response.data && error.response.data.message) {
-             errorMessage = error.response.data.message; // Lấy thông báo lỗi từ server
-        } else if (error.code === 'ERR_NETWORK') {
-             errorMessage = "Lỗi kết nối. Vui lòng kiểm tra API Server (Có đang chạy không?)";
-        }
-        
-        alert(errorMessage);
-        document.getElementById('password').value = ''; 
-    }
-}
 
 function logout() {
     if(confirm("Bạn có chắc chắn muốn đăng xuất?")) {
         document.getElementById('dashboard-screen').classList.add('d-none');
-        document.getElementById('login-screen').classList.remove('d-none');
-        document.getElementById('login-screen').classList.add('d-flex');
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
+        localStorage.removeItem('jwt');
+        window.location.href = 'login';
+
     }
 }
 
