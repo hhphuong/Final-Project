@@ -113,7 +113,7 @@ async function handleLogin(e) {
         // --- XỬ LÝ KHI ĐĂNG NHẬP THÀNH CÔNG (HTTP Status 200/201) ---
         
         // Thường thì response.data sẽ chứa token hoặc thông tin người dùng
-        const jwt = response.data; 
+        const jwt = response.data.token;
         //Lưu jwt vào local storage 
         localStorage.setItem('jwt', jwt);
         
@@ -233,54 +233,83 @@ function updateStats() {
 // 5. CRUD SINH VIÊN (STUDENT)
 // ============================================================
 
-async function renderTable() {
 
-    const jwt = localStorage.getItem('jwt');
-    if (!jwt) {
-        alert("Bạn chưa đăng nhập!");
-        return;
-    }
 
-    //call api get student list
-    const response = await axios.get(`${API_BASE_URL}/students/get-all-students`, {
-        headers: {
-            'Authorization': `Bearer ${jwt}`
+    async function renderTable() {
+        const jwt = localStorage.getItem('jwt');
+        if (!jwt) {
+            alert("Bạn chưa đăng nhập!");
+            // Có thể chuyển hướng về trang login nếu cần: window.location.href = 'login.html';
+            return;
         }
-    });
-    students = response.data;
 
+        try {
+            // 1. Gọi API lấy danh sách sinh viên
+            const response = await axios.get(`${API_BASE_URL}/students/`, {
+                headers: {
+                    'Authorization': `Bearer ${jwt}`
+                }
+            });
 
-    const tbody = document.getElementById('tableBody');
-    if (!tbody) return; 
+            // Giả sử API trả về cấu hình phân trang nên lấy .content
+            // Nếu API trả về list trực tiếp thì dùng: students = response.data;
+            students = response.data.content || response.data;
 
-    tbody.innerHTML = '';
-    students.forEach((s, index) => {
-        let statusBadge = s.status === 'Active' ? '<span class="badge bg-success">Đang học</span>' : '<span class="badge bg-warning text-dark">Bảo lưu</span>';
-        let facultyName = s.faculty === 'CNTT' ? 'Công Nghệ Thông Tin' : s.faculty === 'KT' ? 'Kinh Tế' : 'Điện Tử';
+            const tbody = document.getElementById('tableBody');
+            if (!tbody) return;
 
-        const row = `
-            <tr>
-                <td class="text-center">${index + 1}</td>
-                <td class="fw-bold text-primary">${s.id}</td>
-                <td>
-                    <div class="d-flex align-items-center">
-                        <img src="https://ui-avatars.com/api/?name=${s.name}&background=random" class="rounded-circle me-2" width="30">
-                        <span>${s.name}</span>
-                    </div>
-                </td>
-                <td>${s.class}</td>
-                <td>${facultyName}</td>
-                <td>${statusBadge}</td>
-                <td class="text-center">
-                    <button class="btn btn-sm btn-outline-primary me-1" onclick="editStudent(${index})"><i class="fa-solid fa-pen"></i></button>
-                    <button class="btn btn-sm btn-outline-danger" onclick="deleteStudent(${index})"><i class="fa-solid fa-trash"></i></button>
-                </td>
-            </tr>
-        `;
-        tbody.innerHTML += row;
-    });
-    updateStats();
-}
+            // 2. Render dữ liệu ra bảng
+            tbody.innerHTML = '';
+            students.forEach((s, index) => {
+                let statusBadge = s.status === 'Active' ? '<span class="badge bg-success">Đang học</span>' : '<span class="badge bg-warning text-dark">Bảo lưu</span>';
+                // Dùng s.studentClass và s.faculty theo đúng Entity/Dto ở Backend bạn đã tạo
+                let facultyName = s.faculty === 'CNTT' ? 'Công Nghệ Thông Tin' : s.faculty === 'KT' ? 'Kinh Tế' : 'Điện Tử';
+
+                const row = `
+                    <tr>
+                        <td class="text-center">${index + 1}</td>
+                        <td class="fw-bold text-primary">${s.studentCode || s.id}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="https://ui-avatars.com/api/?name=${s.name}&background=random" class="rounded-circle me-2" width="30">
+                                <span>${s.name}</span>
+                            </div>
+                        </td>
+                        <td>${s.studentClass || s.class}</td>
+                        <td>${facultyName}</td>
+                        <td>${statusBadge}</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary me-1" onclick="editStudent(${index})"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteStudent(${s.id})"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+
+            updateStats();
+
+        } catch (error) {
+            // 3. Xử lý lỗi
+            console.error("Lỗi khi lấy danh sách sinh viên:", error);
+
+            if (error.response) {
+                // Server trả về lỗi (401, 403, 500...)
+                if (error.response.status === 401) {
+                    alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại!");
+                    localStorage.removeItem('jwt');
+                    location.reload();
+                } else {
+                    alert("Lỗi server: " + (error.response.data.message || "Không thể lấy dữ liệu"));
+                }
+            } else if (error.request) {
+                // Không kết nối được tới server
+                alert("Không thể kết nối tới Server. Hãy chắc chắn Backend đang chạy!");
+            } else {
+                alert("Có lỗi xảy ra: " + error.message);
+            }
+        }
+    }
 
 function openModal() {
     // Logic mở Modal sinh viên
