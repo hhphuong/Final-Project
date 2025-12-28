@@ -49,9 +49,15 @@ public class StudentService {
                 .orElseThrow(() -> new RuntimeException("Student không tồn tại"));
     }
 
-    public Page<StudentResponse> getAll(Pageable pageable) {
-        return studentRepository.findAll(pageable)
-                .map(this::mapToResponse);
+    public Page<StudentResponse> search(String keyword, Pageable pageable) {
+        Page<StudentEntity> page;
+        if (keyword == null || keyword.trim().isEmpty()) {
+            page = studentRepository.findAllNotDeleted(pageable);
+        } else {
+            page = studentRepository.search(keyword.trim(), pageable);
+        }
+
+        return page.map(this::mapToResponse);
     }
 
     public void delete(Long id) {
@@ -67,6 +73,7 @@ public class StudentService {
         entity.setStudentClass(request.getStudentClass());
         entity.setFaculty(request.getFaculty());
         entity.setStatus(request.getStatus());
+        entity.setEmail(request.getEmail());
     }
 
     private StudentResponse mapToResponse(StudentEntity entity) {
@@ -77,6 +84,7 @@ public class StudentService {
         response.setStudentClass(entity.getStudentClass());
         response.setFaculty(entity.getFaculty());
         response.setStatus(entity.getStatus());
+        response.setEmail(entity.getEmail());
         return response;
     }
 }

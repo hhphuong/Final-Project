@@ -4,221 +4,420 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hệ Thống Quản Lý Đào Tạo</title>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-light">
 
 
+<div id="dashboard-screen" class="container-fluid d-none">
+    <div class="row min-vh-100">
 
-    <div id="dashboard-screen" class="container-fluid d-none">
-        <div class="row min-vh-100">
-            
-            <nav class="col-md-2 d-none d-md-block bg-dark sidebar p-0">
-                <div class="sidebar-header p-3 text-white text-center border-bottom border-secondary">
-                    <h5 class="m-0"><i class="fa-solid fa-school me-2"></i>EDU MANAGER</h5>
-                </div>
-                <div class="list-group list-group-flush pt-3">
-                    <a href="#" onclick="switchView('view-dashboard')" class="list-group-item list-group-item-action bg-dark text-white border-0 active" id="link-dashboard">
-                        <i class="fa-solid fa-gauge me-2"></i> Tổng quan
-                    </a>
-                    <a href="#" onclick="switchView('view-students')" class="list-group-item list-group-item-action bg-dark text-white border-0" id="link-students">
-                        <i class="fa-solid fa-user-graduate me-2"></i> QL Sinh viên
-                    </a>
-                    <a href="#" onclick="switchView('view-instructors')" class="list-group-item list-group-item-action bg-dark text-white border-0" id="link-instructors">
-                        <i class="fa-solid fa-person-chalkboard me-2"></i> QL Giảng viên
-                    </a>
-                    <a href="#" onclick="switchView('view-classes')" class="list-group-item list-group-item-action bg-dark text-white border-0" id="link-classes">
-                        <i class="fa-solid fa-chalkboard-user me-2"></i> QL Lớp học
-                    </a>
-                    <a href="#" onclick="switchView('view-subjects')" class="list-group-item list-group-item-action bg-dark text-white border-0" id="link-subjects">
-                        <i class="fa-solid fa-book me-2"></i> QL Môn học
-                    </a>
-                    <a href="#" onclick="switchView('view-grades')" class="list-group-item list-group-item-action bg-dark text-white border-0" id="link-grades">
-                        <i class="fa-solid fa-file-invoice me-2"></i> Quản lý Điểm
-                    </a>
-                    <a href="#" onclick="logout()" class="list-group-item list-group-item-action bg-dark text-danger border-0 mt-3">
-                        <i class="fa-solid fa-power-off me-2"></i> Đăng xuất
-                    </a>
-                </div>
-            </nav>
+        <nav class="col-md-2 d-none d-md-block bg-dark sidebar p-0">
+            <div class="sidebar-header p-3 text-white text-center border-bottom border-secondary">
+                <h5 class="m-0"><i class="fa-solid fa-school me-2"></i>EDU MANAGER</h5>
+            </div>
+            <div class="list-group list-group-flush pt-3">
+                <a href="#" onclick="switchView('view-dashboard')"
+                   class="list-group-item list-group-item-action bg-dark text-white border-0 active"
+                   id="link-dashboard">
+                    <i class="fa-solid fa-gauge me-2"></i> Tổng quan
+                </a>
+                <a href="#" onclick="switchView('view-students')"
+                   class="list-group-item list-group-item-action bg-dark text-white border-0" id="link-students">
+                    <i class="fa-solid fa-user-graduate me-2"></i> QL Sinh viên
+                </a>
+                <a href="#" onclick="switchView('view-instructors')"
+                   class="list-group-item list-group-item-action bg-dark text-white border-0" id="link-instructors">
+                    <i class="fa-solid fa-person-chalkboard me-2"></i> QL Giảng viên
+                </a>
+                <a href="#" onclick="switchView('view-classes')"
+                   class="list-group-item list-group-item-action bg-dark text-white border-0" id="link-classes">
+                    <i class="fa-solid fa-chalkboard-user me-2"></i> QL Lớp học
+                </a>
+                <a href="#" onclick="switchView('view-subjects')"
+                   class="list-group-item list-group-item-action bg-dark text-white border-0" id="link-subjects">
+                    <i class="fa-solid fa-book me-2"></i> QL Môn học
+                </a>
+                <a href="#" onclick="switchView('view-grades')"
+                   class="list-group-item list-group-item-action bg-dark text-white border-0" id="link-grades">
+                    <i class="fa-solid fa-file-invoice me-2"></i> Quản lý Điểm
+                </a>
+                <a href="#" onclick="logout()"
+                   class="list-group-item list-group-item-action bg-dark text-danger border-0 mt-3">
+                    <i class="fa-solid fa-power-off me-2"></i> Đăng xuất
+                </a>
+            </div>
+        </nav>
 
-            <main class="col-md-10 ms-sm-auto px-md-4 bg-light">
-                
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h4">Hệ thống quản lý</h1>
-                    <div class="d-flex align-items-center">
-                        <span class="me-3 text-muted">Xin chào, <strong>Admin</strong></span>
-                        <img src="assets/images/avatar-default.jpg" onerror="this.src='https://ui-avatars.com/api/?name=AD'" class="rounded-circle border" alt="Avatar" width="40" height="40">
-                    </div>
-                </div>
+        <main class="col-md-10 ms-sm-auto px-md-4 bg-light">
 
-                <div id="view-dashboard" class="view-section fade-in">
-                    <div class="row g-3">
-                        <div class="col-md-3"><div class="card text-white bg-primary mb-3 shadow-sm h-100"><div class="card-body"><h5 class="card-title"><i class="fa-solid fa-users"></i> Tổng Sinh Viên</h5><h2 class="display-4 fw-bold" id="totalStd">0</h2></div></div></div>
-                        <div class="col-md-3"><div class="card text-white bg-success mb-3 shadow-sm h-100"><div class="card-body"><h5 class="card-title"><i class="fa-solid fa-chalkboard"></i> Lớp Đang Học</h5><h2 class="display-4 fw-bold" id="totalClass">0</h2></div></div></div>
-                        <div class="col-md-3"><div class="card text-white bg-warning mb-3 shadow-sm h-100"><div class="card-body"><h5 class="card-title"><i class="fa-solid fa-book-open"></i> Môn Học</h5><h2 class="display-4 fw-bold" id="totalSubjects">0</h2></div></div></div>
-                        <div class="col-md-3"><div class="card text-white bg-danger mb-3 shadow-sm h-100"><div class="card-body"><h5 class="card-title"><i class="fa-solid fa-person-chalkboard"></i> Giảng Viên </h5><h2 class="display-4 fw-bold" id="totalTeachers">0</h2></div></div></div>
-                    </div>
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h4">Hệ thống quản lý</h1>
+                <div class="d-flex align-items-center">
+                    <span class="me-3 text-muted">Xin chào, <strong>Admin</strong></span>
+                    <img src="assets/images/avatar-default.jpg" onerror="this.src='https://ui-avatars.com/api/?name=AD'"
+                         class="rounded-circle border" alt="Avatar" width="40" height="40">
                 </div>
+            </div>
 
-                <div id="view-students" class="view-section d-none fade-in">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center"><h5 class="m-0 text-primary fw-bold">Danh sách Sinh viên</h5><button class="btn btn-primary btn-sm" onclick="openModal()"><i class="fa-solid fa-plus me-1"></i> Thêm mới</button></div>
-                        <div class="card-body border-bottom bg-light">
-                            <div class="row g-2"><div class="col-md-3"><select class="form-select form-select-sm"><option value="">-- Khoa/Viện --</option></select></div><div class="col-md-4 ms-auto"><div class="input-group input-group-sm"><input type="text" class="form-control" placeholder="Tìm kiếm sinh viên..."><button class="btn btn-outline-secondary" type="button"><i class="fa-solid fa-search"></i></button></div></div></div>
+            <div id="view-dashboard" class="view-section fade-in">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <div class="card text-white bg-primary mb-3 shadow-sm h-100">
+                            <div class="card-body"><h5 class="card-title"><i class="fa-solid fa-users"></i> Tổng Sinh
+                                Viên</h5>
+                                <h2 class="display-4 fw-bold" id="totalStd">0</h2></div>
                         </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table class="table table-hover table-bordered m-0 align-middle"><thead class="table-light"><tr><th class="text-center" width="50">#</th><th>Mã SV</th><th>Họ Tên</th><th>Lớp</th><th>Khoa</th><th>Trạng Thái</th><th class="text-center" width="150">Hành động</th></tr></thead>
-                                <tbody id="tableBody"></tbody>
-                                </table>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-white bg-success mb-3 shadow-sm h-100">
+                            <div class="card-body"><h5 class="card-title"><i class="fa-solid fa-chalkboard"></i> Lớp
+                                Đang Học</h5>
+                                <h2 class="display-4 fw-bold" id="totalClass">0</h2></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-white bg-warning mb-3 shadow-sm h-100">
+                            <div class="card-body"><h5 class="card-title"><i class="fa-solid fa-book-open"></i> Môn Học
+                            </h5>
+                                <h2 class="display-4 fw-bold" id="totalSubjects">0</h2></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-white bg-danger mb-3 shadow-sm h-100">
+                            <div class="card-body"><h5 class="card-title"><i class="fa-solid fa-person-chalkboard"></i>
+                                Giảng Viên </h5>
+                                <h2 class="display-4 fw-bold" id="totalTeachers">0</h2></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-students" class="view-section d-none fade-in">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center"><h5
+                            class="m-0 text-primary fw-bold">Danh sách Sinh viên</h5>
+                        <button class="btn btn-primary btn-sm" onclick="openModal()"><i
+                                class="fa-solid fa-plus me-1"></i> Thêm mới
+                        </button>
+                    </div>
+                    <div class="card-body border-bottom bg-light">
+                        <div class="row g-2">
+                            <div class="col-md-4 ms-auto">
+                                <div class="input-group input-group-sm">
+                                    <input type="text"
+                                           id="searchInput"
+                                           class="form-control"
+                                           placeholder="Tìm kiếm sinh viên..."
+                                           onkeyup="handleSearch(event)">
+                                    <button class="btn btn-outline-secondary"
+                                            type="button"
+                                            onclick="searchStudents()">
+                                        <i class="fa-solid fa-search"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <div class="card-footer bg-white"><nav><ul class="pagination justify-content-end m-0"><li class="page-item disabled"><a class="page-link" href="#">Trước</a></li><li class="page-item active"><a class="page-link" href="#">1</a></li><li class="page-item"><a class="page-link" href="#">2</a></li><li class="page-item"><a class="page-link" href="#">Sau</a></li></ul></nav></div>
                     </div>
-                </div>
-
-                <div id="view-instructors" class="view-section d-none fade-in">
-                    <h2 class="page-title">Quản lý Giảng viên</h2>
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                            <h5 class="m-0 text-primary fw-bold">Danh sách Giảng viên</h5>
-                            <button class="btn btn-primary btn-sm" onclick="openInstructorModal()">
-                                <i class="fa-solid fa-plus me-1"></i> Thêm giảng viên
-                            </button>
-                        </div>
-                        <div class="card-body border-bottom bg-light">
-                             <div class="row g-2"><div class="col-md-3"><select class="form-select form-select-sm"><option value="">-- Khoa/Bộ môn --</option></select></div></div>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table class="table table-hover table-bordered m-0 align-middle">
-                                    <thead class="table-light"><tr><th class="text-center" width="50">#</th><th>Mã GV</th><th>Họ Tên</th><th>Chức danh</th><th>Khoa</th><th>Email</th><th class="text-center" width="100">Hành động</th></tr></thead>
-                                    <tbody id="teacherTableBody"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="view-classes" class="view-section d-none fade-in">
-                    <h2 class="page-title">Quản lý Lớp học (Phân công giảng dạy)</h2>
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                            <h5 class="m-0 text-primary fw-bold">Danh sách Lớp học</h5>
-                            <button class="btn btn-primary btn-sm" onclick="openClassModal()">
-                                <i class="fa-solid fa-plus me-1"></i> Thêm Lớp mới
-                            </button>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table class="table table-hover table-bordered m-0 align-middle">
-                                    <thead class="table-light"><tr><th class="text-center" width="50">#</th><th>Mã Lớp</th><th>Môn học</th><th>Giảng viên</th><th>Lịch học</th><th>SL SV</th><th class="text-center" width="100">Chi tiết</th></tr></thead>
-                                    <tbody id="classListBody"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="view-subjects" class="view-section d-none fade-in">
-                    <h2 class="page-title">Quản lý Môn học</h2>
-                    <div class="card shadow-sm mb-3">
-                        <div class="card-body d-flex justify-content-between align-items-center">
-                            <h6 class="m-0 text-muted" id="totalSubjects">Có 0 Môn học</h6>
-                            <button class="btn btn-primary btn-sm" onclick="openSubjectModal()"><i class="fa-solid fa-plus me-1"></i> Thêm môn học</button>
-                        </div>
-                    </div>
-                    <div class="card shadow-sm">
+                    <div class="card-body p-0">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped m-0 align-middle">
-                                <thead class="table-light"><tr><th width="50">#</th><th>Mã Môn</th><th style="width: 40%;">Tên Môn</th><th>Số TC</th><th width="120" class="text-center">Hành động</th></tr></thead>
-                                <tbody id="subjectTableBody"></tbody>
+                            <table class="table table-hover table-bordered m-0 align-middle">
+                                <thead class="table-light">
+                                <tr>
+                                    <th class="text-center" width="50">#</th>
+                                    <th>Mã SV</th>
+                                    <th>Họ Tên</th>
+                                    <th>Lớp</th>
+                                    <th>Khoa</th>
+                                    <th>Trạng Thái</th>
+                                    <th class="text-center" width="150">Hành động</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <div class="d-flex align-items-center justify-content-between">
+
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="text-secondary small">Hiển thị</span>
+                                <select id="pageSizeSelect" class="form-select form-select-sm w-auto"
+                                        onchange="changePageSize()">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                </select>
+                                <span class="text-secondary small">bản ghi</span>
+                            </div>
+
+                            <nav>
+                                <ul class="pagination m-0" id="pagination">
+                                    <li class="page-item disabled"><a class="page-link" href="#">Trước</a></li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-instructors" class="view-section d-none fade-in">
+                <h2 class="page-title">Quản lý Giảng viên</h2>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="m-0 text-primary fw-bold">Danh sách Giảng viên</h5>
+                        <button class="btn btn-primary btn-sm" onclick="openInstructorModal()">
+                            <i class="fa-solid fa-plus me-1"></i> Thêm giảng viên
+                        </button>
+                    </div>
+                    <div class="card-body border-bottom bg-light">
+                        <div class="row g-2">
+                            <div class="col-md-3"><select class="form-select form-select-sm">
+                                <option value="">-- Khoa/Bộ môn --</option>
+                            </select></div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered m-0 align-middle">
+                                <thead class="table-light">
+                                <tr>
+                                    <th class="text-center" width="50">#</th>
+                                    <th>Mã GV</th>
+                                    <th>Họ Tên</th>
+                                    <th>Chức danh</th>
+                                    <th>Khoa</th>
+                                    <th>Email</th>
+                                    <th class="text-center" width="100">Hành động</th>
+                                </tr>
+                                </thead>
+                                <tbody id="teacherTableBody"></tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div id="view-grades" class="view-section d-none"><div class="alert alert-info">Chức năng Quản lý Điểm đang phát triển...</div></div>
-
-            </main>
-        </div>
-    </div>
-
-    <div class="modal fade" id="studentModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header bg-primary text-white"><h5 class="modal-title" id="modalTitle">Thông tin Sinh viên</h5><button type="button" class="btn-close btn-close-white" onclick="closeModal()" aria-label="Close"></button></div><div class="modal-body"><form id="studentForm"><div class="row g-3"><div class="col-md-6"><label class="form-label">Mã Sinh Viên <span class="text-danger">*</span></label><input type="text" class="form-control" id="stdId" placeholder="VD: B19..."></div><div class="col-md-6"><label class="form-label">Họ và Tên <span class="text-danger">*</span></label><input type="text" class="form-control" id="stdName"></div><div class="col-md-6"><label class="form-label">Lớp</label><input type="text" class="form-control" id="stdClass"></div><div class="col-md-6"><label class="form-label">Khoa</label><select class="form-select" id="stdFaculty"><option value="CNTT">Công Nghệ Thông Tin</option><option value="KT">Kinh Tế</option><option value="DT">Điện Tử</option></select></div><div class="col-12"><label class="form-label">Email</label><input type="email" class="form-control" id="stdEmail"></div><div class="col-12"><label class="form-label">Trạng thái</label><select class="form-select" id="stdStatus"><option value="Active">Đang theo học</option><option value="Reserved">Bảo lưu</option></select></div></div></form></div><div class="modal-footer"><button type="button" class="btn btn-secondary" onclick="closeModal()">Đóng</button><button type="button" class="btn btn-primary" onclick="saveStudent()">Lưu lại</button></div></div></div>
-    </div>
-
-    <div class="modal fade" id="subjectModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog"><div class="modal-content"><div class="modal-header bg-success text-white"><h5 class="modal-title" id="subjectModalTitle">Thêm Môn Học Mới</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><form id="subjectForm"><div class="mb-3"><label class="form-label">Mã Môn Học <span class="text-danger">*</span></label><input type="text" class="form-control" id="subjectCode" placeholder="Ví dụ: IT101" required></div><div class="mb-3"><label class="form-label">Tên Môn Học <span class="text-danger">*</span></label><input type="text" class="form-control" id="subjectName" placeholder="Ví dụ: Nhập môn Lập trình"></div><div class="mb-3"><label class="form-label">Số Tín Chỉ (TC)</label><input type="number" class="form-control" id="subjectCredits" min="1" max="5" value="3"></div></form></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button><button type="button" class="btn btn-success" onclick="saveSubject()">Lưu Môn Học</button></div></div></div>
-    </div>
-
-    <div class="modal fade" id="instructorModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-info text-white">
-                    <h5 class="modal-title" id="instructorModalTitle">Hồ sơ Giảng viên</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="instructorForm">
-                        <div class="mb-3"><label class="form-label">Mã Giảng viên</label><input type="text" class="form-control" id="insId" required></div>
-                        <div class="mb-3"><label class="form-label">Họ và Tên</label><input type="text" class="form-control" id="insName" required></div>
-                        <div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control" id="insEmail" required></div>
-                        <div class="mb-3"><label class="form-label">Khoa/Bộ môn</label><select class="form-select" id="insDept"><option>CNTT</option><option>Kinh Tế</option></select></div>
-                        <div class="mb-3"><label class="form-label">Chức danh</label><input type="text" class="form-control" id="insTitle"></div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="button" class="btn btn-info text-white" onclick="saveInstructor()">Lưu Hồ Sơ</button>
+            <div id="view-classes" class="view-section d-none fade-in">
+                <h2 class="page-title">Quản lý Lớp học (Phân công giảng dạy)</h2>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="m-0 text-primary fw-bold">Danh sách Lớp học</h5>
+                        <button class="btn btn-primary btn-sm" onclick="openClassModal()">
+                            <i class="fa-solid fa-plus me-1"></i> Thêm Lớp mới
+                        </button>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered m-0 align-middle">
+                                <thead class="table-light">
+                                <tr>
+                                    <th class="text-center" width="50">#</th>
+                                    <th>Mã Lớp</th>
+                                    <th>Môn học</th>
+                                    <th>Giảng viên</th>
+                                    <th>Lịch học</th>
+                                    <th>SL SV</th>
+                                    <th class="text-center" width="100">Chi tiết</th>
+                                </tr>
+                                </thead>
+                                <tbody id="classListBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <div class="modal fade" id="classDetailModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title" id="classDetailTitle">Chi tiết Lớp</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+
+            <div id="view-subjects" class="view-section d-none fade-in">
+                <h2 class="page-title">Quản lý Môn học</h2>
+                <div class="card shadow-sm mb-3">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <h6 class="m-0 text-muted" id="totalSubjects">Có 0 Môn học</h6>
+                        <button class="btn btn-primary btn-sm" onclick="openSubjectModal()"><i
+                                class="fa-solid fa-plus me-1"></i> Thêm môn học
+                        </button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <p class="mb-3">Giảng viên: <b id="detailInsName"></b> | Môn học: <b id="detailSubjectName"></b></p>
+                <div class="card shadow-sm">
                     <div class="table-responsive">
-                        <table class="table table-sm table-striped m-0 align-middle">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Mã SV</th>
-                                    <th>Họ Tên</th>
-                                    <th>Email</th>
-                                    <th class="text-center">CC (10%)</th>
-                                    <th class="text-center">GK (30%)</th>
-                                    <th class="text-center">CK (60%)</th>
-                                    <th class="text-center">TỔNG KẾT</th>
-                                    <th class="text-center">Chỉnh sửa</th>
-                                </tr>
+                        <table class="table table-hover table-striped m-0 align-middle">
+                            <thead class="table-light">
+                            <tr>
+                                <th width="50">#</th>
+                                <th>Mã Môn</th>
+                                <th style="width: 40%;">Tên Môn</th>
+                                <th>Số TC</th>
+                                <th width="120" class="text-center">Hành động</th>
+                            </tr>
                             </thead>
-                            <tbody id="enrollmentTableBody">
-                                </tbody>
+                            <tbody id="subjectTableBody"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
+            <div id="view-grades" class="view-section d-none">
+                <div class="alert alert-info">Chức năng Quản lý Điểm đang phát triển...</div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<div class="modal fade" id="studentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white"><h5 class="modal-title" id="modalTitle">Thông tin Sinh
+                viên</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="closeModal()"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="studentForm">
+                    <div class="row g-3">
+                        <div class="col-md-6"><label class="form-label">Mã Sinh Viên <span class="text-danger">*</span></label><input
+                                type="text" class="form-control" id="stdId" placeholder="VD: B19..."></div>
+                        <div class="col-md-6"><label class="form-label">Họ và Tên <span
+                                class="text-danger">*</span></label><input type="text" class="form-control"
+                                                                           id="stdName"></div>
+                        <div class="col-md-6"><label class="form-label">Lớp</label><input type="text"
+                                                                                          class="form-control"
+                                                                                          id="stdClass"></div>
+                        <div class="col-md-6"><label class="form-label">Khoa</label><select class="form-select"
+                                                                                            id="stdFaculty">
+                            <option value="CNTT">Công Nghệ Thông Tin</option>
+                            <option value="KT">Kinh Tế</option>
+                            <option value="DT">Điện Tử</option>
+                        </select></div>
+                        <div class="col-12"><label class="form-label">Email</label><input type="email"
+                                                                                          class="form-control"
+                                                                                          id="stdEmail"></div>
+                        <div class="col-12"><label class="form-label">Trạng thái</label><select class="form-select"
+                                                                                                id="stdStatus">
+                            <option value="Active">Đang theo học</option>
+                            <option value="Reserved">Bảo lưu</option>
+                        </select></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="saveStudent()">Lưu lại</button>
+            </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="subjectModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white"><h5 class="modal-title" id="subjectModalTitle">Thêm Môn Học
+                Mới</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="subjectForm">
+                    <div class="mb-3"><label class="form-label">Mã Môn Học <span
+                            class="text-danger">*</span></label><input type="text" class="form-control" id="subjectCode"
+                                                                       placeholder="Ví dụ: IT101" required></div>
+                    <div class="mb-3"><label class="form-label">Tên Môn Học <span
+                            class="text-danger">*</span></label><input type="text" class="form-control" id="subjectName"
+                                                                       placeholder="Ví dụ: Nhập môn Lập trình"></div>
+                    <div class="mb-3"><label class="form-label">Số Tín Chỉ (TC)</label><input type="number"
+                                                                                              class="form-control"
+                                                                                              id="subjectCredits"
+                                                                                              min="1" max="5" value="3">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success" onclick="saveSubject()">Lưu Môn Học</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="instructorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="instructorModalTitle">Hồ sơ Giảng viên</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="instructorForm">
+                    <div class="mb-3"><label class="form-label">Mã Giảng viên</label><input type="text"
+                                                                                            class="form-control"
+                                                                                            id="insId" required></div>
+                    <div class="mb-3"><label class="form-label">Họ và Tên</label><input type="text" class="form-control"
+                                                                                        id="insName" required></div>
+                    <div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control"
+                                                                                    id="insEmail" required></div>
+                    <div class="mb-3"><label class="form-label">Khoa/Bộ môn</label><select class="form-select"
+                                                                                           id="insDept">
+                        <option>CNTT</option>
+                        <option>Kinh Tế</option>
+                    </select></div>
+                    <div class="mb-3"><label class="form-label">Chức danh</label><input type="text" class="form-control"
+                                                                                        id="insTitle"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-info text-white" onclick="saveInstructor()">Lưu Hồ Sơ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="classDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="classDetailTitle">Chi tiết Lớp</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-3">Giảng viên: <b id="detailInsName"></b> | Môn học: <b id="detailSubjectName"></b></p>
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped m-0 align-middle">
+                        <thead class="table-dark">
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã SV</th>
+                            <th>Họ Tên</th>
+                            <th>Email</th>
+                            <th class="text-center">CC (10%)</th>
+                            <th class="text-center">GK (30%)</th>
+                            <th class="text-center">CK (60%)</th>
+                            <th class="text-center">TỔNG KẾT</th>
+                            <th class="text-center">Chỉnh sửa</th>
+                        </tr>
+                        </thead>
+                        <tbody id="enrollmentTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="js/main.js"></script>
 
 </body>
 </html>

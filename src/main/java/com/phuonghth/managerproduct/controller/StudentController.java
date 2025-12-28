@@ -40,14 +40,16 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<Page<StudentResponse>> getAllStudents(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        // Tạo đối tượng phân trang
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String keyword
+    ) {
         Pageable pageable = PageRequest.of(page, size);
+        Page<StudentResponse> studentPage =
+                studentService.search(keyword, pageable);
 
-        Page<StudentResponse> studentPage = studentService.getAll(pageable);
         return ResponseEntity.ok(studentPage);
     }
+
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

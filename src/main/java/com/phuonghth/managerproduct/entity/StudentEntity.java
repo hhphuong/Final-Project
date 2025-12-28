@@ -12,6 +12,8 @@ public class StudentEntity extends BaseEntity {
     @Column(nullable = false)
     private String name;
     private String studentClass;
+    @Column(unique = true)
+    private String email;
     private String faculty;
     private String status;
 
@@ -53,5 +55,13 @@ public class StudentEntity extends BaseEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

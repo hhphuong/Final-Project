@@ -4,6 +4,7 @@ public class StudentResponse {
     private Long id;
     private String studentCode;
     private String name;
+    private String email;
     private String studentClass;
     private String faculty;
     private String status;
@@ -25,4 +26,6 @@ public class StudentResponse {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 }
